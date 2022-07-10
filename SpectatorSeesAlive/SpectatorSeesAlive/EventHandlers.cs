@@ -44,7 +44,7 @@ namespace SpectatorSeesAlive
                     if (player.Role.Type == RoleType.Spectator)
                     {
                         player.ShowManagedHint(
-                            $"<align=right>CHI & D-Class:{Player.Get(Side.ChaosInsurgency).Count()} \n MTF & Scientist:{Player.Get(Side.Mtf).Count()} \n SCPs:{Player.Get(Side.Scp).Count()} </align>",
+                            $"<align=right>{plugin.Config.Chaos}{Player.Get(Side.ChaosInsurgency).Count()} \n {plugin.Config.Foundation}:{Player.Get(Side.Mtf).Count()} \n {plugin.Config.Scps}:{Player.Get(Side.Scp).Count()} </align>",
                             5, true, DisplayLocation.Top);
                         
                     }
