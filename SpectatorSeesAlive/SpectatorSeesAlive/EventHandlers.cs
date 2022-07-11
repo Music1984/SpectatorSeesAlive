@@ -10,7 +10,8 @@ using Exiled.API.Features.Roles;
 
 namespace SpectatorSeesAlive
 {
-    using Exiled.API.Features;
+    using Exiled.API.Features; 
+    
 
     /// <summary>
     /// General event handlers.
@@ -19,12 +20,13 @@ namespace SpectatorSeesAlive
     {
         private readonly Plugin plugin;
         CoroutineHandle _coroutineHandle;
+        public static List<string> HintHidden = new List<string>();
         /// <summary>
         /// Initializes a new instance of the <see cref="EventHandlers"/> class.
         /// </summary>
         /// <param name="plugin">The <see cref="Plugin{TConfig}"/> class reference.</param>
         public EventHandlers(Plugin plugin) => this.plugin = plugin;
-
+        List<Player> Spectators = new List<Player>();
         public void OnRoundStart()
         {
             _coroutineHandle = Timing.RunCoroutine(SpecatorCoroutine());
@@ -34,23 +36,24 @@ namespace SpectatorSeesAlive
         {
             Timing.KillCoroutines(_coroutineHandle);
         }
-
+        
         public IEnumerator<float> SpecatorCoroutine()
         {
             for (;;)
             {
-                foreach (var player in Player.List)
+                yield return Timing.WaitForSeconds(1.1f);
+                Spectators = Player.Get(Team.RIP).ToList();
+                foreach (Player player in Spectators.Where(x => !HintHidden.Contains(x.UserId)))
                 {
-                    if (player.Role.Type == RoleType.Spectator)
-                    {
-                        player.ShowManagedHint(
-                            $"<align=right>{plugin.Config.Chaos}{Player.Get(Side.ChaosInsurgency).Count()} \n {plugin.Config.Foundation}:{Player.Get(Side.Mtf).Count()} \n {plugin.Config.Scps}:{Player.Get(Side.Scp).Count()} </align>",
-                            5, true, DisplayLocation.Top);
-                        
-                    }
-                    yield return Timing.WaitForSeconds(1.1f);
+                    player.ShowManagedHint(
+                        $"<align=right>{plugin.Config.Chaos}:{Player.Get(Side.ChaosInsurgency).Count()} \n {plugin.Config.Foundation}:{Player.Get(Side.Mtf).Count()} \n {plugin.Config.Scps}:{Player.Get(Side.Scp).Count()} </align>",
+                        5, true, DisplayLocation.Top);
                 }
+                
+
+                
             }
+            
         }
     }
 }
