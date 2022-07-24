@@ -38,6 +38,7 @@ namespace SpectatorSeesAlive
         public override void OnDisabled()
         {
             Handlers.Server.RoundStarted -= eventHandlers.OnRoundStart;
+            Handlers.Server.RoundEnded -= eventHandlers.OnRoundEnd;
             eventHandlers = null;
             base.OnDisabled();
         }
