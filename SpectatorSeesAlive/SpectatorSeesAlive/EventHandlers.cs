@@ -20,7 +20,7 @@ namespace SpectatorSeesAlive
     {
         private readonly Plugin plugin;
         CoroutineHandle _coroutineHandle;
-        public static List<string> HintHidden = new List<string>();
+        //public static List<string> HintHidden = new List<string>();
         /// <summary>
         /// Initializes a new instance of the <see cref="EventHandlers"/> class.
         /// </summary>
@@ -43,7 +43,7 @@ namespace SpectatorSeesAlive
             {
                 yield return Timing.WaitForSeconds(1.1f);
                 Spectators = Player.Get(Team.RIP).ToList();
-                foreach (Player player in Spectators.Where(x => !HintHidden.Contains(x.UserId)))
+                foreach (Player player in Spectators)
                 {
                     player.ShowManagedHint(
                         $"<align=right>{plugin.Config.Chaos}:{Player.Get(Side.ChaosInsurgency).Count()} \n {plugin.Config.Foundation}:{Player.Get(Side.Mtf).Count()} \n {plugin.Config.Scps}:{Player.Get(Side.Scp).Count()} </align>",
